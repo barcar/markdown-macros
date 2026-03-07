@@ -34,6 +34,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[docs]"
 
+      - name: Copy Changelog into docs
+        run: cp CHANGELOG.md docs/changelog.md
+
       - name: Build with Zensical
         run: zensical build
 

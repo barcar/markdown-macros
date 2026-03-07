@@ -21,6 +21,8 @@ nav = [
   ]},
   { "Compatibility with MkDocs Macros" = "compatibility.md" },
   { "Troubleshooting" = "troubleshooting.md" },
+  { "Changelog" = "changelog.md" },
+  { "License" = "license.md" },
 ]
 
 [project.theme]

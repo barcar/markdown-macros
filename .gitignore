@@ -11,7 +11,10 @@ dist/
 *.egg-info/
 .eggs/
 
-# MkDocs
+# Docs (changelog copied from root in CI only)
+docs/changelog.md
+
+# Zensical
 site/
 
 # Testing / tools
