@@ -5,9 +5,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Deploy docs to GitHub Pages](https://github.com/barcar/markdown-macros/actions/workflows/pages.yml/badge.svg)](https://github.com/barcar/markdown-macros/actions/workflows/pages.yml)
 
+
 **Author:** [BarCar](https://github.com/barcar) · **Repository:** [github.com/barcar/markdown-macros](https://github.com/barcar/markdown-macros)
 
 A **Python-Markdown extension** that brings [MkDocs Macros](https://mkdocs-macros-plugin.readthedocs.io/)–style **Jinja2 templating** to any Markdown pipeline: variables (config + YAML front matter), **macros**, and **filters**. Works with [Zensical](https://zensical.org), MkDocs, or plain Python—without the MkDocs plugin.
+
+[![BuyMeACoffee](https://raw.githubusercontent.com/barcar/buymeacoffee-badges/main/bmc-donate-white.svg)](https://buymeacoffee.com/barcar)
 
 ## Features
 

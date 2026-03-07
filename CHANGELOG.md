@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Dependabot auto-merge workflow: run on all successful test workflow completions (not only `main`); resolve PR head branch via Actions API so PR-triggered runs are detected; add checkout and `contents: write` so merge step succeeds
+- Fixed PyPi docs link to use GitHub Pages
 
 ## [0.3.1] - 2026-03-07
 
