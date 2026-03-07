@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "markdown-macros"
+version = "0.1.0"
+description = "Python-Markdown extension: MkDocs-Macros–style Jinja2 templating (variables, macros, filters) with YAML front matter for Zensical and MkDocs"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+authors = [{ name = "BarCar" }]
+keywords = ["markdown", "frontmatter", "yaml", "zensical", "mkdocs", "macros"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup",
+]
+dependencies = [
+    "markdown>=3.4",
+    "pyyaml>=6.0",
+    "jinja2>=3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+]
+docs = [
+    "zensical",
+]
+
+[project.entry-points."markdown.extensions"]
+markdown_macros = "markdown_macros:MacrosExtension"
+
+[project.urls]
+Documentation = "https://github.com/barcar/markdown-macros#readme"
+Repository = "https://github.com/barcar/markdown-macros"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["markdown_macros*"]

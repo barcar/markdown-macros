@@ -1,0 +1,3 @@
+# Variables loaded via include_yaml for the Live demo page
+project_url: https://github.com/barcar/markdown-macros
+tagline: Variables, macros, and filters in your Markdown

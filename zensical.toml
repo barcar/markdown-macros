@@ -1,0 +1,47 @@
+# Zensical config for building the documentation
+# Run: zensical serve  (or zensical build)
+
+[project]
+site_name = "Markdown Macros"
+site_description = "MkDocs-Macros–style Jinja2 templating for Python-Markdown"
+site_url = "https://github.com/barcar/markdown-macros"
+repo_url = "https://github.com/barcar/markdown-macros"
+docs_dir = "docs"
+site_dir = "site"
+nav = [
+  { "Home" = "index.md" },
+  { "Live demo" = "demo.md" },
+  { "Getting started" = [
+    { "Installation" = "installation.md" },
+    { "Configuration" = "configuration.md" },
+  ]},
+  { "User guide" = [
+    { "Writing modules" = "writing-modules.md" },
+    { "Usage" = "usage.md" },
+  ]},
+  { "Compatibility with MkDocs Macros" = "compatibility.md" },
+  { "Troubleshooting" = "troubleshooting.md" },
+]
+
+[project.theme]
+variant = "modern"
+
+# Markdown extensions
+[project.markdown_extensions.markdown_macros]
+module_name = "docs/demo_macros"
+project_root = "."
+include_yaml = ["docs/demo_vars.yaml"]
+
+[project.markdown_extensions.markdown_macros.variables]
+site_name = "Markdown Macros"
+version = "0.1"
+title = "Live demo"
+author = "Docs"
+features = ["Front matter", "Config variables", "include_yaml", "Macros and filters"]
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.pymdownx.superfences]
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+[project.markdown_extensions.toc]
+permalink = true
