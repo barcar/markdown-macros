@@ -9,44 +9,24 @@ Exposes md.Meta and md.front_matter for downstream use.
 
 import importlib.util
 import logging
-import re
 from pathlib import Path
 
 from markdown import Extension
 from markdown.preprocessors import Preprocessor
 
+from markdown_macros.utils import FRONT_MATTER_RE, meta_from_dict
+
 try:
     import jinja2
-except ImportError:
+except ImportError:  # pragma: no cover
     jinja2 = None
 
 try:
     import yaml
-except ImportError:
+except ImportError:  # pragma: no cover
     yaml = None
 
 logger = logging.getLogger("markdown_macros")
-
-FRONT_MATTER_RE = re.compile(
-    r"^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n",
-    re.MULTILINE,
-)
-
-
-def _meta_from_dict(data):
-    """Convert dict to Python-Markdown Meta: lowercase keys, list values."""
-    meta = {}
-    if not isinstance(data, dict):
-        return meta
-    for key, value in data.items():
-        k = key.lower().strip()
-        if isinstance(value, list):
-            meta[k] = [str(v) for v in value]
-        elif value is None:
-            meta[k] = [""]
-        else:
-            meta[k] = [str(value)]
-    return meta
 
 
 class MacroEnv:
@@ -72,23 +52,38 @@ class MacroEnv:
         return fn
 
 
+def _path_under_root(path: Path, root: Path) -> bool:
+    """Return True if path resolves to a location under root (or equals root)."""
+    try:
+        path.resolve().relative_to(root.resolve())
+        return True
+    except (ValueError, OSError):
+        return False
+
+
 def _load_module(module_name, project_root=None):
     """Load a module by name (e.g. 'main') and return (variables, macros, filters) from define_env."""
     root = Path(project_root or ".").resolve()
     for candidate in [root / f"{module_name}.py", root / module_name / "__init__.py"]:
-        if candidate.exists():
-            spec = importlib.util.spec_from_file_location(module_name, candidate)
-            if spec and spec.loader:
-                mod = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(mod)
-                if hasattr(mod, "define_env"):
-                    env = MacroEnv()
-                    mod.define_env(env)
-                    return env.variables, env._macros, env._filters
-            break
+        if not candidate.exists():
+            continue
+        if not _path_under_root(candidate, root):
+            continue
+        spec = importlib.util.spec_from_file_location(module_name, candidate)
+        if spec and spec.loader:
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            if hasattr(mod, "define_env"):
+                env = MacroEnv()
+                mod.define_env(env)
+                return env.variables, env._macros, env._filters
+        break
+    # Only try import for package-like names (no path separators or "..")
+    if "/" in module_name or "\\" in module_name or ".." in module_name:
+        return {}, {}, {}
     try:
         mod = __import__(module_name)
-        if hasattr(mod, "define_env"):
+        if hasattr(mod, "define_env"):  # pragma: no cover - need installed package with define_env
             env = MacroEnv()
             mod.define_env(env)
             return env.variables, env._macros, env._filters
@@ -120,12 +115,12 @@ def _load_pluglets(module_names):
 
 
 def _load_one_yaml(path, project_root=None):
-    """Load a single YAML file; return dict or None."""
-    if not yaml:
+    """Load a single YAML file; return dict or None. Paths must resolve under project_root."""
+    if not yaml:  # pragma: no cover
         return None
     root = Path(project_root or ".").resolve()
-    p = root / path if not Path(path).is_absolute() else Path(path)
-    if not p.exists():
+    p = (root / path).resolve() if not Path(path).is_absolute() else Path(path).resolve()
+    if not p.exists() or not _path_under_root(p, root):
         return None
     try:
         with open(p, encoding="utf-8") as f:
@@ -179,10 +174,10 @@ class MacrosPreprocessor(Preprocessor):
                         data = {"content": data}
                 except Exception:
                     data = {}
-            else:
+            else:  # pragma: no cover - yaml not installed
                 data = {}
             self.md.Meta = getattr(self.md, "Meta", None) or {}
-            self.md.Meta.update(_meta_from_dict(data))
+            self.md.Meta.update(meta_from_dict(data))
             self.md.front_matter = data
             body = text[match.end() :]
         else:
@@ -212,7 +207,6 @@ class MacrosPreprocessor(Preprocessor):
                 logger.debug("markdown_macros: loading module %r", module_name)
             mod_vars, macros, filters = _load_module(module_name, project_root)
             variables.update(mod_vars)
-            variables.update(macros)
         else:
             macros = {}
             filters = {}
@@ -228,11 +222,12 @@ class MacrosPreprocessor(Preprocessor):
                 filters = {}
             macros.update(pm)
             filters.update(pf)
+        variables.update(macros)  # so template can call macros (from module or pluglets)
         if match:
             variables.update(self.md.front_matter)
 
         if not jinja2:
-            return body.split("\n")
+            return body.split("\n")  # pragma: no cover - jinja2 not installed
 
         # 3) Build Jinja2 environment
         include_dir = self.config.get("include_dir") or ""
@@ -245,9 +240,9 @@ class MacrosPreprocessor(Preprocessor):
         }
         comment_start = self.config.get("j2_comment_start_string")
         comment_end = self.config.get("j2_comment_end_string")
-        if comment_start is not None:
+        if comment_start is not None:  # pragma: no cover - set via config file, not constructor
             env_kw["comment_start_string"] = comment_start
-        if comment_end is not None:
+        if comment_end is not None:  # pragma: no cover
             env_kw["comment_end_string"] = comment_end
         on_undefined = self.config.get("on_undefined", "keep")
         if on_undefined == "strict":

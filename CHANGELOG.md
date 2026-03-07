@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.4.0] - 2026-03-07
+
+### Added
+
+- CI: test job runs pytest with coverage (`--cov=markdown_macros --cov-fail-under=95`)
+- Python 3.13 classifier in `pyproject.toml`
+- Shared `markdown_macros.utils`: `FRONT_MATTER_RE` and `meta_from_dict()` (deduplicated from front_matter and macros)
+- Tests for path safety, utils, front matter edge cases (empty/null/scalar/malformed YAML), pluglets, include_dir, macros `make_extension`, and error/verbose paths
+
+### Changed
+
+- PyPI publish workflow no longer mutates `pyproject.toml`; release tag must match the version already in the repo (bump version, commit, push, then create a release with tag `vX.Y.Z`)
+- Dependabot schedule set back to `monthly`; Zensical `site_url` set to GitHub Pages URL
+- Docs: note that local build may 404 on Changelog page; path safety documented in configuration
+
+### Fixed
+
+- Path safety: `include_yaml` and `module_name` file paths must resolve under `project_root`; paths that escape (e.g. `../../outside`) are ignored and no longer loaded
+- Pluglet macros added to template context so `modules=` (pluglets) can provide callable macros as well as variables
+- Malformed YAML in front matter now covered by test (tab-indented line triggers exception path)
+
 ## [0.3.2] - 2026-03-07
 
 ### Fixed

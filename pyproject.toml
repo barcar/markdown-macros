@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "markdown-macros-extension"
-version = "0.3.2"
+version = "0.4.0"
 description = "Python-Markdown extension: MkDocs-Macros–style Jinja2 templating (variables, macros, filters) with YAML front matter for Zensical and MkDocs"
 readme = "README.md"
 license = "MIT"
@@ -21,12 +21,13 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Text Processing :: Markup",
 ]
 dependencies = [
     "markdown>=3.4",
     "pyyaml>=6.0",
-    "jinja2==3.1.6",
+    "jinja2>=3.0",
 ]
 
 [project.optional-dependencies]

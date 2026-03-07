@@ -37,7 +37,7 @@ jobs:
           pip install -e ".[dev]"
 
       - name: Run tests
-        run: pytest tests/ -v
+        run: pytest tests/ --cov=markdown_macros --cov-fail-under=95 -v
 
   build:
     runs-on: ubuntu-latest

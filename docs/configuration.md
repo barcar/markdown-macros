@@ -11,7 +11,7 @@ All options for the **MacrosExtension** (the main extension that runs Jinja2).
 | `modules` | `[]` | List of **pluglet** package names (e.g. `mkdocs_macros_plugin.include`) to load. Each must be importable and define `define_env(env)`. Variables, macros, and filters are merged after the local module. |
 | `include_yaml` | `[]` | **List:** paths to YAML files; each is loaded and merged flat into variables. **Dict:** `key: path`; each file is loaded and stored under `variables[key]`. Paths are relative to `project_root`. |
 | `include_dir` | `""` | Directory (relative to `project_root`) used for `{% include 'path/to/file.md' %}`. If set, Jinja2 uses a `FileSystemLoader` so includes resolve from this directory. |
-| `project_root` | `"."` | Directory used to resolve `module_name`, `include_yaml` paths, and `include_dir`. |
+| `project_root` | `"."` | Directory used to resolve `module_name`, `include_yaml` paths, and `include_dir`. Paths must resolve under this directory; paths that escape (e.g. `../../outside`) are ignored. |
 | `render_by_default` | `true` | If `false`, Jinja2 is only run on pages whose front matter has `render_macros: true`. Other pages get front matter parsed but body unchanged. |
 | `on_error_fail` | `false` | If `true`, a Jinja2 (or template) error is re-raised and the build fails. If `false`, the body is returned unchanged on error. |
 | `on_undefined` | `"keep"` | How to treat undefined variables: `"keep"` (Jinja2 default: empty or leave as-is) or `"strict"` (raise on undefined). |

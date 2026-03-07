@@ -11,36 +11,15 @@ page-level metadata; this extension ensures front matter is available as md.Meta
 for the rest of the pipeline.
 """
 
-import re
 from markdown import Extension
 from markdown.preprocessors import Preprocessor
 
+from markdown_macros.utils import FRONT_MATTER_RE, meta_from_dict
+
 try:
     import yaml
-except ImportError:
+except ImportError:  # pragma: no cover
     yaml = None
-
-# Match --- at start of document, then content until next --- (YAML style only for now)
-FRONT_MATTER_RE = re.compile(
-    r"^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n",
-    re.MULTILINE,
-)
-
-
-def _meta_from_dict(data):
-    """Convert parsed YAML dict to Python-Markdown Meta format: lowercase keys, list values."""
-    meta = {}
-    if not isinstance(data, dict):
-        return meta
-    for key, value in data.items():
-        k = key.lower().strip()
-        if isinstance(value, list):
-            meta[k] = [str(v) for v in value]
-        elif value is None:
-            meta[k] = [""]
-        else:
-            meta[k] = [str(value)]
-    return meta
 
 
 class FrontMatterPreprocessor(Preprocessor):
@@ -76,7 +55,7 @@ class FrontMatterPreprocessor(Preprocessor):
 
         # Expose for Python-Markdown and downstream (e.g. MkDocs page.meta)
         self.md.Meta = getattr(self.md, "Meta", None) or {}
-        self.md.Meta.update(_meta_from_dict(data))
+        self.md.Meta.update(meta_from_dict(data))
         # Full structure for themes/plugins that expect nested data
         self.md.front_matter = data
 

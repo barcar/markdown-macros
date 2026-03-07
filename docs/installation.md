@@ -108,6 +108,10 @@ extensions=["markdown_macros.front_matter:FrontMatterExtension"]
 
 If you see raw `{{ title }}`, the extension is not in the Markdown pipeline or Jinja2 failed (check that `jinja2` is installed).
 
+## Building this project's docs
+
+To build and serve this project's documentation locally: `pip install -e ".[docs]"` then `zensical serve` (see the [README](https://github.com/barcar/markdown-macros)). **Note:** A local build may 404 on the Changelog page because `docs/changelog.md` is generated only in CI; the published site has it.
+
 ## Python-Markdown extension API
 
 This project follows the [Python-Markdown extension API](https://python-markdown.github.io/extensions/api/):

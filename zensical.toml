@@ -4,7 +4,7 @@
 [project]
 site_name = "Markdown Macros"
 site_description = "MkDocs-Macros–style Jinja2 templating for Python-Markdown"
-site_url = "https://github.com/barcar/markdown-macros"
+site_url = "https://barcar.github.io/markdown-macros"
 repo_url = "https://github.com/barcar/markdown-macros"
 docs_dir = "docs"
 site_dir = "site"

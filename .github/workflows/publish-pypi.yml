@@ -16,13 +16,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set version from release tag
+      # Version is canonical in pyproject.toml. Release tag must match (e.g. v0.3.2).
+      - name: Verify release tag matches pyproject.toml version
         run: |
           TAG="${{ github.event.release.tag_name }}"
-          VERSION="${TAG#v}"
-          sed -i "s/^version = .*/version = \"${VERSION}\"/" pyproject.toml
-          echo "Building version ${VERSION}"
-          grep '^version = ' pyproject.toml
+          TAG_VERSION="${TAG#v}"
+          FILE_VERSION=$(grep '^version = ' pyproject.toml | sed 's/.*"\([^"]*\)".*/\1/')
+          if [ "$FILE_VERSION" != "$TAG_VERSION" ]; then
+            echo "Version mismatch: release tag is $TAG but pyproject.toml has version = \"$FILE_VERSION\""
+            echo "Bump version in pyproject.toml (and CHANGELOG), commit, push, then create a release with tag v$FILE_VERSION"
+            exit 1
+          fi
+          echo "Building version $FILE_VERSION"
 
       - name: Set up Python
         uses: actions/setup-python@v6
