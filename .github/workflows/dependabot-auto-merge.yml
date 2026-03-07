@@ -8,14 +8,13 @@ on:
   workflow_run:
     workflows: ["Tests and Deploy docs to GitHub Pages"]
     types: [completed]
-    branches: [main]
 
 jobs:
   merge:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.workflow_run.head_branch, 'dependabot/') }}
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     steps:
       - name: Get PR number

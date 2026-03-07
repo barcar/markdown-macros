@@ -26,7 +26,7 @@ classifiers = [
 dependencies = [
     "markdown>=3.4",
     "pyyaml>=6.0",
-    "jinja2==3.0.0",  # Pinned so Dependabot opens an update PR; change back to "jinja2>=3.0" after merging
+    "jinja2==3.0.0",  # Pinned so Dependabot has an update to propose
 ]
 
 [project.optional-dependencies]
