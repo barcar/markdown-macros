@@ -17,10 +17,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Get PR number
         id: pr
         run: |
-          PR_NUM=$(gh pr list --head "${{ github.event.workflow_run.head_branch }}" --state open --json number -q '.[0].number')
+          PR_NUM=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "${{ github.event.workflow_run.head_branch }}" --state open --json number -q '.[0].number')
           echo "number=$PR_NUM" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
