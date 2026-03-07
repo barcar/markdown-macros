@@ -1,0 +1,33 @@
+# When "Tests and Deploy docs" passes on a Dependabot PR, merge it.
+# Requires: repo Settings → General → Pull Requests → Allow auto-merge (optional, for merge when ready)
+# The merge is done by this workflow; branch protection "Require status checks" should require the test workflow.
+
+name: Auto-merge Dependabot PRs
+
+on:
+  workflow_run:
+    workflows: ["Tests and Deploy docs to GitHub Pages"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.workflow_run.head_branch, 'dependabot/') }}
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Get PR number
+        id: pr
+        run: |
+          PR_NUM=$(gh pr list --head "${{ github.event.workflow_run.head_branch }}" --state open --json number -q '.[0].number')
+          echo "number=$PR_NUM" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge Dependabot PR
+        if: steps.pr.outputs.number != ''
+        run: gh pr merge ${{ steps.pr.outputs.number }} --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
