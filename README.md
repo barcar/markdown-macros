@@ -1,5 +1,8 @@
 # Markdown Macros
 
+[![PyPI version](https://img.shields.io/pypi/v/markdown-macros-extension.svg)](https://pypi.org/project/markdown-macros-extension/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Deploy docs to GitHub Pages](https://github.com/barcar/markdown-macros/actions/workflows/pages.yml/badge.svg)](https://github.com/barcar/markdown-macros/actions/workflows/pages.yml)
 
 **Author:** [BarCar](https://github.com/barcar) · **Repository:** [github.com/barcar/markdown-macros](https://github.com/barcar/markdown-macros)

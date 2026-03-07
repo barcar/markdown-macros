@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-03-07
+
+### Added
+
+- Tests run in CI before docs deploy; Pages only updates when tests pass
+- README badges: PyPI version, Python 3.8+, License MIT
+
+### Changed
+
+- Docs workflow renamed to "Tests and Deploy docs to GitHub Pages" (test job added with `needs: test` on build)
+
 ## [0.2.0] - 2026-03-07
 
 ### Added
