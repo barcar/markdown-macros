@@ -42,7 +42,7 @@ docs = [
 markdown_macros = "markdown_macros:MacrosExtension"
 
 [project.urls]
-Documentation = "https://github.com/barcar/markdown-macros#readme"
+Documentation = "https://barcar.github.io/markdown-macros/"
 Repository = "https://github.com/barcar/markdown-macros"
 
 [tool.setuptools.packages.find]
