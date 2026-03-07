@@ -12,7 +12,7 @@ on:
 jobs:
   merge:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.workflow_run.head_branch, 'dependabot/') }}
+    if: github.event.workflow_run.conclusion == 'success'
     permissions:
       contents: write
       pull-requests: write
@@ -20,10 +20,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # workflow_run.head_branch is the base branch (e.g. main) for PR-triggered runs,
+      # so we get the actual head branch from the Actions API.
+      - name: Get run head branch
+        id: run
+        run: |
+          HEAD_BRANCH=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/${{ github.event.workflow_run.id }}" --jq '.head_branch')
+          echo "branch=$HEAD_BRANCH" >> $GITHUB_OUTPUT
+          echo "Head branch: $HEAD_BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Get PR number
+        if: startsWith(steps.run.outputs.branch, 'dependabot/')
         id: pr
         run: |
-          PR_NUM=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "${{ github.event.workflow_run.head_branch }}" --state open --json number -q '.[0].number')
+          PR_NUM=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "${{ steps.run.outputs.branch }}" --state open --json number -q '.[0].number')
           echo "number=$PR_NUM" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
