@@ -10,10 +10,10 @@
 ## Standard installation
 
 ```bash
-pip install markdown-macros
+pip install markdown-macros-extension
 ```
 
-This installs `markdown-macros` and its dependencies (`markdown`, `pyyaml`, `jinja2`).
+This installs `markdown-macros-extension` and its dependencies (`markdown`, `pyyaml`, `jinja2`).
 
 ## Enabling the extension
 

@@ -3,8 +3,8 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "markdown-macros"
-version = "0.1.0"
+name = "markdown-macros-extension"
+version = "0.2.0"
 description = "Python-Markdown extension: MkDocs-Macros–style Jinja2 templating (variables, macros, filters) with YAML front matter for Zensical and MkDocs"
 readme = "README.md"
 license = { text = "MIT" }

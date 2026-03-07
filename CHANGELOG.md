@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-03-07
+
+### Added
+
+- Documentation built with [Zensical](https://zensical.org) (replacing MkDocs); modern theme, repo link in header
+- Changelog and License pages in the docs site; Changelog copied from root in CI for GitHub Pages
+- GitHub Actions: deploy docs to GitHub Pages on push to `main`; publish to PyPI on release (version from tag)
+- [Dependabot](.github/dependabot.yml) for pip and GitHub Actions (monthly)
+
+### Changed
+
+- PyPI package name **markdown-macros-extension** (install: `pip install markdown-macros-extension`); extension key in config remains `markdown_macros`
+- README trimmed to a short overview with link to online docs and compatibility note
+- Author and repo set to BarCar / barcar/markdown-macros; MIT License (c) 2026 BarCar
+
 ## [0.1.0] - 2026-03-07
 
 ### Added

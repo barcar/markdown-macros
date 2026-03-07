@@ -15,7 +15,7 @@ A **Python-Markdown extension** that brings [MkDocs Macros](https://mkdocs-macro
 ## Installation
 
 ```bash
-pip install markdown-macros
+pip install markdown-macros-extension
 ```
 
 Requires: `markdown>=3.4`, `pyyaml>=6.0`, `jinja2>=3.0`.
