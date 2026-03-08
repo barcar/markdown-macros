@@ -10,6 +10,8 @@ on:
 
 jobs:
   publish:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     environment: pypi
     steps:
