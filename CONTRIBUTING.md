@@ -44,7 +44,7 @@ Open a [GitHub issue](https://github.com/barcar/markdown-macros/issues) with:
 
 ## Releases
 
-Releases are cut by the maintainers. The version in `pyproject.toml` and [CHANGELOG.md](CHANGELOG.md) is the source of truth; the release tag (e.g. `v0.4.0`) must match. You don’t need to do anything special for a release when contributing.
+Releases are cut by the maintainers. The version in `pyproject.toml` and [CHANGELOG.md](CHANGELOG.md) is the source of truth; the release tag (e.g. `v0.5.0`) must match. You don’t need to do anything special for a release when contributing.
 
 ---
 

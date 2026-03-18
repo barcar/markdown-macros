@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-18
+
+### Added
+- Zensical compatibility shim: inject Zensical-parsed YAML front matter into `md.front_matter` so Jinja2 substitutions can use page metadata.
+- Tests covering the shim and the host-injected `md.front_matter` behavior.
+- Docs updates describing Zensical’s front matter stripping and the available compatibility path.
+
+### Fixed
+- Zensical: front matter variables are now available during Markdown Macros rendering even when the host strips the `---...---` block before Python-Markdown runs.
+
 ## [0.4.0] - 2026-03-07
 
 ### Added

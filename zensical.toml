@@ -36,7 +36,7 @@ include_yaml = ["docs/demo_vars.yaml"]
 
 [project.markdown_extensions.markdown_macros.variables]
 site_name = "Markdown Macros"
-version = "0.4.0"
+version = "0.5.0"
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.pymdownx.superfences]
