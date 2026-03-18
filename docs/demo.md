@@ -16,6 +16,8 @@ This page is built **with** the Markdown Macros extension. Each section shows **
 
 Variables from this page’s YAML header.
 
+Under Zensical, the Markdown `---...---` block is stripped before Python-Markdown runs. This extension installs a small compatibility shim so front matter values are still available to Jinja2 substitutions.
+
 **Markdown source:**
 
 ```markdown

@@ -161,7 +161,9 @@ class MacrosPreprocessor(Preprocessor):
         project_root = self.config.get("project_root") or "."
         verbose = self.config.get("verbose", False)
 
-        # 1) Parse and strip front matter
+        # 1) Parse and strip front matter, or use host-injected front matter
+        # When a host (e.g. Zensical) strips front matter before calling Markdown, it may set
+        # md.front_matter (and/or md.Meta) so we can still use it for Jinja2 variables.
         match = FRONT_MATTER_RE.match(text)
         if match:
             raw_block = match.group(1).strip()
@@ -181,10 +183,18 @@ class MacrosPreprocessor(Preprocessor):
             self.md.front_matter = data
             body = text[match.end() :]
         else:
-            self.md.Meta = getattr(self.md, "Meta", None) or {}
-            if not hasattr(self.md, "front_matter") or self.md.front_matter is None:
-                self.md.front_matter = {}
-            body = text
+            host_fm = getattr(self.md, "front_matter", None)
+            if isinstance(host_fm, dict) and len(host_fm) > 0:
+                # Host stripped front matter and set md.front_matter; use it and treat full text as body
+                self.md.Meta = getattr(self.md, "Meta", None) or {}
+                self.md.Meta.update(meta_from_dict(host_fm))
+                self.md.front_matter = host_fm
+                body = text
+            else:
+                self.md.Meta = getattr(self.md, "Meta", None) or {}
+                if not hasattr(self.md, "front_matter") or self.md.front_matter is None:
+                    self.md.front_matter = {}
+                body = text
 
         # render_by_default: if False, only render when front matter has render_macros: true
         render_by_default = self.config.get("render_by_default", True)
@@ -223,7 +233,8 @@ class MacrosPreprocessor(Preprocessor):
             macros.update(pm)
             filters.update(pf)
         variables.update(macros)  # so template can call macros (from module or pluglets)
-        if match:
+        # Merge page front matter (from our parse or from host-injected md.front_matter)
+        if self.md.front_matter:
             variables.update(self.md.front_matter)
 
         if not jinja2:

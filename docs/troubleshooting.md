@@ -49,6 +49,9 @@ The extension loads Python code when you set `module_name` or `modules`: it impo
 2. **Delimiters**  
    Only `---` at the **start** of the document is supported. The opening line must be `---` (optionally with trailing spaces/newline), then the YAML content, then a closing `---`.
 
+3. **Zensical front matter stripping**  
+   Zensical strips the `---...---` block before Markdown conversion. When using Zensical with this extension, it installs a best-effort shim to inject the parsed YAML into `md.front_matter` automatically. If it still doesn’t work, try a clean rebuild and confirm `markdown_macros` is enabled in `zensical.toml` / your `markdown_extensions` configuration.
+
 ## Zensical: extension not applied
 
 **Symptom**: In Zensical, Markdown is built but no templating or front matter is applied.

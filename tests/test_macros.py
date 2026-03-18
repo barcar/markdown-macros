@@ -295,6 +295,17 @@ def test_no_front_matter_sets_empty_front_matter():
     assert md.front_matter == {}
 
 
+def test_host_injected_front_matter_used_in_jinja2():
+    """When the host strips front matter and sets md.front_matter before convert(), we use it for variables."""
+    text = "Body. Author: {{ fm_author }}"
+    md = markdown.Markdown(extensions=[MacrosExtension()])
+    md.front_matter = {"fm_author": "HostAuthor", "title": "HostTitle"}
+    html = md.convert(text)
+    assert "HostAuthor" in html
+    assert md.Meta.get("title") == ["HostTitle"]
+    assert md.front_matter["fm_author"] == "HostAuthor"
+
+
 def test_verbose_render_by_default_false():
     """With verbose=True and render_by_default=False, no crash (covers debug log path)."""
     text = """---

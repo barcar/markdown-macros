@@ -26,6 +26,19 @@ All options for the **MacrosExtension** (the main extension that runs Jinja2).
 
 Change the `j2_*` options only if you need to avoid clashes with other syntax (e.g. a different templating system that also uses `{{` and `}}`).
 
+### Host-injected front matter
+
+Some hosts (e.g. Zensical) strip YAML front matter from the document **before** passing content to Python-Markdown. In that case the extension never sees the `---` block, so it cannot parse front matter from the source.
+
+If the host sets **`md.front_matter`** (a dict of key/value pairs) on the `Markdown` instance before calling `convert()`, the extension will use that as the page’s front matter: it is merged into the Jinja2 context and into `md.Meta`. The document body is then the full text passed to the preprocessor (the host should pass the body after stripping the `---` block). This allows hosts that strip front matter to still expose page metadata to macros and templates.
+
+- **With `---` in the source:** the extension parses it, sets `md.Meta` and `md.front_matter`, and uses the rest as body.
+- **With no `---` but `md.front_matter` already set:** the extension uses that dict and treats the entire input as body.
+
+For Zensical specifically, this extension installs a best-effort compatibility shim that wraps Zensical’s Markdown renderer and injects the parsed YAML into `md.front_matter` automatically, so you do not need to set `md.front_matter` yourself.
+
+Note: this shim is a runtime monkeypatch of Zensical’s Python function, so it assumes your docs/config/macro modules are trusted (same trust model as MkDocs-Macros).
+
 ## Examples
 
 ### Zensical (`zensical.toml`)
