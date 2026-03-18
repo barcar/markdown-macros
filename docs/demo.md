@@ -1,7 +1,7 @@
 ---
 title: Live demo
-author: Docs
-features:
+fm_author: Docs
+fm_features:
   - Front matter
   - Config variables
   - include_yaml
@@ -14,29 +14,29 @@ This page is built **with** the Markdown Macros extension. Each section shows **
 
 ## Front matter
 
-Variables from this page’s YAML header (or from config when the host strips the header first).
+Variables from this page’s YAML header.
 
 **Markdown source:**
 
 ```markdown
 ---
 title: Live demo
-author: Docs
-features:
+fm_author: Docs
+fm_features:
   - Front matter
   - Config variables
 ---
 
 - **title:** {{ title }}
-- **author:** {{ author }}
-- **features:** {{ features | join(', ') }}
+- **fm_author:** {{ fm_author }}
+- **fm_features:** {{ fm_features | join(', ') }}
 ```
 
 **Rendered:**
 
 - **title:** {{ title }}
-- **author:** {{ author }}
-- **features:** {{ features | join(', ') }}
+- **fm_author:** {{ fm_author }}
+- **fm_features:** {{ fm_features | join(', ') }}
 
 ## Config variables
 

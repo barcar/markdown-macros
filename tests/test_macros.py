@@ -98,6 +98,24 @@ Price is {{ price }}.
     assert md.front_matter["price"] == 42
 
 
+def test_front_matter_overrides_config_variables():
+    """Front matter variables override config variables when keys collide."""
+    text = """---
+title: From front matter
+---
+
+Title: {{ title }}
+"""
+    md = markdown.Markdown(
+        extensions=[
+            MacrosExtension(variables={"title": "From config"}),
+        ]
+    )
+    html = md.convert(text)
+    assert "From front matter" in html
+    assert "From config" not in html
+
+
 def test_config_variables():
     text = "Unit price: {{ unit_price }}."
     md = markdown.Markdown(
